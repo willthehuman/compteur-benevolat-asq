@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heures de bénévolat — ASQ</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #f4f6f7;
+    color: #31414b;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16.5px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+  .page { max-width: 600px; margin: 0 auto; padding: 24px 16px 56px; }
+  .entete h1 { font-size: 26px; margin: 0 0 4px; font-weight: 650; }
+  .soust { color: #71828d; font-size: 15px; margin: 0 0 18px; }
+
+  .onglets { display: flex; gap: 8px; margin: 0 0 18px; }
+  .onglet {
+    flex: 1; padding: 11px 8px; border-radius: 999px; border: 1.5px solid #dce4e8;
+    background: #fff; color: #55707e; font-family: inherit; font-size: 15px; cursor: pointer;
+  }
+  .onglet.actif { background: #3a6b7e; border-color: #3a6b7e; color: #fff; font-weight: 600; }
+
+  .carte {
+    background: #fff; border-radius: 16px; padding: 18px 16px;
+    box-shadow: 0 6px 22px rgba(49, 65, 75, 0.06); margin-bottom: 14px;
+  }
+  .champ { display: block; margin-bottom: 12px; }
+  .champ span { display: block; font-size: 13.5px; color: #71828d; margin-bottom: 5px; }
+  .champ input, .champ select {
+    width: 100%; padding: 11px 12px; border: 1.5px solid #dce4e8; border-radius: 10px;
+    font-family: inherit; font-size: 16px; color: #31414b; background: #fff;
+  }
+  .champ input:focus, .champ select:focus { outline: none; border-color: #3a6b7e; }
+
+  .bouton {
+    background: #3a6b7e; color: #fff; border: none; border-radius: 10px;
+    padding: 12px 16px; font-size: 15.5px; font-family: inherit; cursor: pointer;
+  }
+  .bouton.clair { background: #e9f0f3; color: #2e5866; }
+  .bouton.danger { background: #f6e5e1; color: #a1482f; }
+  .bouton.large { display: block; width: 100%; text-align: center; margin: 0 0 10px; }
+  .message { margin: 10px 0 0; font-size: 14.5px; }
+  .message.ok { color: #3f7a5f; }
+  .message.avert { color: #a1482f; }
+
+  .titre-liste { font-size: 16px; margin: 20px 2px 8px; color: #55707e; font-weight: 600; }
+  .liste { list-style: none; margin: 0; padding: 0; }
+  .entree {
+    display: flex; align-items: flex-start; gap: 8px;
+    background: #fff; border-radius: 12px; padding: 11px 12px; margin-bottom: 8px;
+    box-shadow: 0 4px 14px rgba(49, 65, 75, 0.05);
+  }
+  .entree-corps { flex: 1 1 auto; min-width: 0; }
+  .entree-haut { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+  .entree-date { color: #71828d; font-size: 14px; flex: 0 0 auto; }
+  .entree-tache { font-weight: 600; font-size: 15px; flex: 1 1 120px; min-width: 0; }
+  .entree-heures { margin-left: auto; color: #2e5866; font-weight: 600; font-size: 15px; white-space: nowrap; }
+  .entree-note { color: #71828d; font-size: 14px; margin-top: 3px; }
+  .sup {
+    flex: 0 0 auto; background: none; border: none; color: #a9b6bd;
+    font-size: 17px; cursor: pointer; padding: 4px 6px; line-height: 1;
+  }
+  .sup:hover { color: #a1482f; }
+  .vide { color: #9aa8b0; font-size: 14.5px; margin: 6px 2px; }
+
+  .totaux { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 6px; }
+  .tot {
+    background: #fff; border-radius: 14px; padding: 13px 10px; text-align: center;
+    box-shadow: 0 4px 14px rgba(49, 65, 75, 0.05);
+  }
+  .totlabel { display: block; font-size: 12.5px; color: #71828d; margin-bottom: 4px; }
+  .totval { display: block; font-size: 19px; font-weight: 650; color: #2e5866; white-space: nowrap; }
+
+  .pt { margin: 12px 0; }
+  .pt:first-child { margin-top: 4px; }
+  .pt-haut { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; }
+  .pt-nom { min-width: 0; }
+  .pt-val { flex: 0 0 auto; font-weight: 600; color: #2e5866; white-space: nowrap; }
+  .pt-barre { margin-top: 6px; background: #edf2f4; border-radius: 6px; height: 9px; overflow: hidden; }
+  .pt-barre div { height: 9px; background: #3a6b7e; border-radius: 6px; }
+
+  .mois { font-size: 15px; color: #55707e; margin: 18px 2px 8px; font-weight: 600; }
+
+  .tache { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .tache input {
+    flex: 1 1 auto; min-width: 0; padding: 10px 11px; border: 1.5px solid #dce4e8;
+    border-radius: 10px; font-family: inherit; font-size: 15.5px; color: #31414b;
+  }
+  .tache input:focus { outline: none; border-color: #3a6b7e; }
+  .ajouttache { display: flex; gap: 8px; align-items: center; }
+  .ajouttache input {
+    flex: 1 1 auto; min-width: 0; padding: 10px 11px; border: 1.5px solid #dce4e8;
+    border-radius: 10px; font-family: inherit; font-size: 15.5px; color: #31414b;
+  }
+  .importlabel { cursor: pointer; }
+  .importlabel input { display: none; }
+  .aide { color: #9aa8b0; font-size: 13.5px; margin: 6px 2px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="entete">
+    <h1>Heures de bénévolat</h1>
+    <p class="soust">ASQ — compteur d'heures, tâche par tâche.</p>
+  </header>
+
+  <nav class="onglets">
+    <button class="onglet actif" id="ongSaisie" type="button" data-page="saisie">Ajouter</button>
+    <button class="onglet" id="ongHisto" type="button" data-page="historique">Historique</button>
+    <button class="onglet" id="ongRegl" type="button" data-page="reglages">Réglages</button>
+  </nav>
+
+  <section id="page-saisie">
+    <div class="carte">
+      <label class="champ"><span>Date</span><input type="date" id="inpDate"></label>
+      <label class="champ"><span>Tâche</span><select id="selTache"></select></label>
+      <label class="champ"><span>Nombre d'heures</span><input type="text" id="inpHeures" inputmode="decimal" placeholder="ex. 1,5" autocomplete="off"></label>
+      <label class="champ"><span>Note (au besoin)</span><input type="text" id="inpNote" placeholder="ex. ordre du jour, comité" autocomplete="off"></label>
+      <button class="bouton large" id="btnAjouter" type="button">Ajouter</button>
+      <p class="message" id="messageSaisie" hidden></p>
+    </div>
+    <h2 class="titre-liste">Dernières entrées</h2>
+    <ul class="liste" id="listeRecentes"></ul>
+  </section>
+
+  <section id="page-historique" hidden>
+    <div class="totaux">
+      <div class="tot"><span class="totlabel">Ce mois-ci</span><span class="totval" id="totMois">0 h</span></div>
+      <div class="tot"><span class="totlabel">Cette année</span><span class="totval" id="totAnnee">0 h</span></div>
+      <div class="tot"><span class="totlabel">Total</span><span class="totval" id="totTout">0 h</span></div>
+    </div>
+    <h2 class="titre-liste">Par tâche</h2>
+    <div class="carte" id="parTache"></div>
+    <h2 class="titre-liste">Toutes les entrées</h2>
+    <div id="histoListe"></div>
+  </section>
+
+  <section id="page-reglages" hidden>
+    <h2 class="titre-liste">Tâches possibles</h2>
+    <p class="aide">Point de départ à ajuster selon le procédurier de l'ASQ — renomme, ajoute ou retire.</p>
+    <div class="carte" id="listeTaches"></div>
+    <div class="carte ajouttache">
+      <input type="text" id="inpTache" placeholder="Nouvelle tâche" autocomplete="off">
+      <button class="bouton" id="btnAjoutTache" type="button">Ajouter</button>
+    </div>
+    <h2 class="titre-liste">Sauvegarde</h2>
+    <div class="carte">
+      <button class="bouton clair large" id="btnCsv" type="button">Exporter en CSV (tableur)</button>
+      <button class="bouton clair large" id="btnJson2" type="button">Sauvegarder tout (.json)</button>
+      <label class="bouton clair large importlabel">Importer une sauvegarde (.json)<input type="file" id="inpImport2" accept=".json,application/json"></label>
+      <button class="bouton danger large" id="btnEffacer2" type="button">Effacer toutes les entrées</button>
+    </div>
+    <p class="aide">Tout reste sur cet appareil. Rien n'est envoyé nulle part.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var TACHES_DEPART = [
+    "Séance du CA",
+    "AGA et assemblées",
+    "Comité",
+    "Rédaction (PV, documents)",
+    "Événement ou atelier",
+    "Communications et site web",
+    "Sollicitation et commandites",
+    "Représentation",
+    "Administration et suivis"
+  ];
+  var CLE = "compteur-benevolat-asq-v1";
+  var MOIS_ABR = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+  var MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
+  var stockageOk = true;
+  try {
+    window.localStorage.setItem("__test_ba", "1");
+    window.localStorage.removeItem("__test_ba");
+  } catch (e) { stockageOk = false; }
+
+  var etat = { taches: TACHES_DEPART.slice(), entrees: [] };
+
+  function charger() {
+    if (!stockageOk) return;
+    try {
+      var brut = window.localStorage.getItem(CLE);
+      if (!brut) return;
+      var d = JSON.parse(brut);
+      if (!d || typeof d !== "object") return;
+      if (Array.isArray(d.taches)) {
+        var t = [];
+        for (var i = 0; i < d.taches.length; i++) {
+          if (typeof d.taches[i] === "string" && d.taches[i].replace(/\s/g, "") !== "") t.push(d.taches[i]);
+        }
+        if (t.length) etat.taches = t;
+      }
+      if (Array.isArray(d.entrees)) {
+        etat.entrees = nettoyerEntrees(d.entrees);
+      }
+    } catch (e) { /* on repart à vide */ }
+  }
+
+  function nettoyerEntrees(arr) {
+    var out = [];
+    for (var i = 0; i < arr.length; i++) {
+      var e = arr[i];
+      if (e && typeof e.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.date) &&
+          typeof e.tache === "string" && e.tache &&
+          typeof e.min === "number" && e.min > 0) {
+        out.push({
+          date: e.date,
+          tache: e.tache,
+          min: Math.round(e.min),
+          note: typeof e.note === "string" ? e.note : ""
+        });
+      }
+    }
+    return out;
+  }
+
+  function sauver() {
+    if (!stockageOk) return;
+    try {
+      window.localStorage.setItem(CLE, JSON.stringify({ version: 1, taches: etat.taches, entrees: etat.entrees }));
+    } catch (e) { /* silencieux */ }
+  }
+
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function aujourdhui() {
+    var d = new Date();
+    return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+  }
+  function formatMin(min) {
+    min = Math.round(min);
+    if (min <= 0) return "0 h";
+    var h = Math.floor(min / 60);
+    var m = min % 60;
+    if (h === 0) return m + " min";
+    if (m === 0) return h + " h";
+    return h + " h " + pad2(m);
+  }
+  function dateCourt(iso) {
+    var p = iso.split("-");
+    var d = parseInt(p[2], 10);
+    var m = parseInt(p[1], 10) - 1;
+    return (d === 1 ? "1er" : String(d)) + " " + MOIS_ABR[m];
+  }
+  function moisLong(cle) {
+    var p = cle.split("-");
+    var nom = MOIS[parseInt(p[1], 10) - 1];
+    return nom.charAt(0).toUpperCase() + nom.slice(1) + " " + p[0];
+  }
+  function triees(desc) {
+    var couples = [];
+    for (var i = 0; i < etat.entrees.length; i++) couples.push([etat.entrees[i], i]);
+    couples.sort(function (a, b) {
+      var c = a[0].date < b[0].date ? 1 : (a[0].date > b[0].date ? -1 : 0);
+      if (!desc) c = -c;
+      if (c !== 0) return c;
+      return desc ? b[1] - a[1] : a[1] - b[1];
+    });
+    var out = [];
+    for (var k = 0; k < couples.length; k++) out.push(couples[k][0]);
+    return out;
+  }
+
+  var elTache = document.getElementById("selTache");
+  var elHeures = document.getElementById("inpHeures");
+  var elNote = document.getElementById("inpNote");
+  var elDate = document.getElementById("inpDate");
+  var elMsg = document.getElementById("messageSaisie");
+  var elRecentes = document.getElementById("listeRecentes");
+  var elTotMois = document.getElementById("totMois");
+  var elTotAnnee = document.getElementById("totAnnee");
+  var elTotTout = document.getElementById("totTout");
+  var elParTache = document.getElementById("parTache");
+  var elHisto = document.getElementById("histoListe");
+  var elListeTaches = document.getElementById("listeTaches");
+  var elInpTache = document.getElementById("inpTache");
+  var msgMinuteur = null;
+
+  function msg(texte, ok) {
+    elMsg.textContent = texte;
+    elMsg.className = "message" + (ok ? " ok" : " avert");
+    elMsg.hidden = false;
+    if (msgMinuteur) clearTimeout(msgMinuteur);
+    msgMinuteur = setTimeout(function () { elMsg.hidden = true; }, 4000);
+  }
+
+  function rendreSelect() {
+    var val = elTache.value;
+    elTache.textContent = "";
+    for (var i = 0; i < etat.taches.length; i++) {
+      var o = document.createElement("option");
+      o.value = etat.taches[i];
+      o.textContent = etat.taches[i];
+      elTache.appendChild(o);
+    }
+    if (val && etat.taches.indexOf(val) !== -1) elTache.value = val;
+  }
+
+  function ligneEntree(e, avecNote) {
+    var li = document.createElement("li");
+    li.className = "entree";
+    var corps = document.createElement("div");
+    corps.className = "entree-corps";
+    var haut = document.createElement("div");
+    haut.className = "entree-haut";
+    var d = document.createElement("span");
+    d.className = "entree-date";
+    d.textContent = dateCourt(e.date);
+    var t = document.createElement("span");
+    t.className = "entree-tache";
+    t.textContent = e.tache;
+    var v = document.createElement("span");
+    v.className = "entree-heures";
+    v.textContent = formatMin(e.min);
+    haut.appendChild(d);
+    haut.appendChild(t);
+    haut.appendChild(v);
+    corps.appendChild(haut);
+    if (avecNote && e.note) {
+      var no = document.createElement("div");
+      no.className = "entree-note";
+      no.textContent = e.note;
+      corps.appendChild(no);
+    }
+    var sup = document.createElement("button");
+    sup.type = "button";
+    sup.className = "sup";
+    sup.textContent = "✕";
+    sup.setAttribute("aria-label", "Supprimer cette entrée");
+    sup.addEventListener("click", function () {
+      if (!window.confirm("Supprimer cette entrée ?")) return;
+      var k = etat.entrees.indexOf(e);
+      if (k !== -1) etat.entrees.splice(k, 1);
+      sauver();
+      rendre();
+    });
+    li.appendChild(corps);
+    li.appendChild(sup);
+    return li;
+  }
+
+  function rendreRecentes() {
+    elRecentes.textContent = "";
+    var l = triees(true);
+    if (!l.length) {
+      var li0 = document.createElement("li");
+      li0.className = "vide";
+      li0.textContent = "Rien encore — la première entrée s'ajoute en haut.";
+      elRecentes.appendChild(li0);
+      return;
+    }
+    var n = Math.min(5, l.length);
+    for (var i = 0; i < n; i++) elRecentes.appendChild(ligneEntree(l[i], false));
+  }
+
+  function rendreTotaux() {
+    var d = new Date();
+    var cleM = d.getFullYear() + "-" + pad2(d.getMonth() + 1);
+    var cleA = String(d.getFullYear());
+    var mois = 0, annee = 0, tout = 0;
+    for (var i = 0; i < etat.entrees.length; i++) {
+      var e = etat.entrees[i];
+      tout += e.min;
+      if (e.date.slice(0, 7) === cleM) mois += e.min;
+      if (e.date.slice(0, 4) === cleA) annee += e.min;
+    }
+    elTotMois.textContent = formatMin(mois);
+    elTotAnnee.textContent = formatMin(annee);
+    elTotTout.textContent = formatMin(tout);
+  }
+
+  function rendreParTache() {
+    elParTache.textContent = "";
+    var tot = {};
+    for (var i = 0; i < etat.entrees.length; i++) {
+      var e = etat.entrees[i];
+      tot[e.tache] = (tot[e.tache] || 0) + e.min;
+    }
+    var noms = Object.keys(tot);
+    if (!noms.length) {
+      var p = document.createElement("p");
+      p.className = "vide";
+      p.textContent = "Aucune heure encore.";
+      elParTache.appendChild(p);
+      return;
+    }
+    noms.sort(function (a, b) { return tot[b] - tot[a]; });
+    var max = tot[noms[0]];
+    for (var j = 0; j < noms.length; j++) {
+      var nom = noms[j];
+      var bloc = document.createElement("div");
+      bloc.className = "pt";
+      var h = document.createElement("div");
+      h.className = "pt-haut";
+      var s1 = document.createElement("span");
+      s1.className = "pt-nom";
+      s1.textContent = nom;
+      var s2 = document.createElement("span");
+      s2.className = "pt-val";
+      s2.textContent = formatMin(tot[nom]);
+      h.appendChild(s1);
+      h.appendChild(s2);
+      var barre = document.createElement("div");
+      barre.className = "pt-barre";
+      var interieur = document.createElement("div");
+      interieur.style.width = Math.max(4, Math.round(tot[nom] / max * 100)) + "%";
+      barre.appendChild(interieur);
+      bloc.appendChild(h);
+      bloc.appendChild(barre);
+      elParTache.appendChild(bloc);
+    }
+  }
+
+  function rendreHistorique() {
+    elHisto.textContent = "";
+    var l = triees(true);
+    if (!l.length) {
+      var p = document.createElement("p");
+      p.className = "vide";
+      p.textContent = "L'historique se remplira avec les entrées.";
+      elHisto.appendChild(p);
+      return;
+    }
+    var moisCourant = null;
+    var ul = null;
+    for (var i = 0; i < l.length; i++) {
+      var e = l[i];
+      var cle = e.date.slice(0, 7);
+      if (cle !== moisCourant) {
+        moisCourant = cle;
+        var h = document.createElement("h3");
+        h.className = "mois";
+        h.textContent = moisLong(cle);
+        elHisto.appendChild(h);
+        ul = document.createElement("ul");
+        ul.className = "liste";
+        elHisto.appendChild(ul);
+      }
+      ul.appendChild(ligneEntree(e, true));
+    }
+  }
+
+  function rendreTaches() {
+    elListeTaches.textContent = "";
+    for (var i = 0; i < etat.taches.length; i++) {
+      rendreTache(i);
+    }
+  }
+
+  function rendreTache(idx) {
+    var li = document.createElement("li");
+    li.className = "tache";
+    var inp = document.createElement("input");
+    inp.type = "text";
+    inp.value = etat.taches[idx];
+    inp.setAttribute("aria-label", "Nom de la tâche");
+    inp.addEventListener("change", function () {
+      var nouveau = inp.value.trim();
+      var ancien = etat.taches[idx];
+      if (!nouveau) { inp.value = ancien; return; }
+      if (nouveau === ancien) { inp.value = nouveau; return; }
+      if (etat.taches.indexOf(nouveau) !== -1) {
+        window.alert("Cette tâche est déjà dans la liste.");
+        inp.value = ancien;
+        return;
+      }
+      etat.taches[idx] = nouveau;
+      for (var k = 0; k < etat.entrees.length; k++) {
+        if (etat.entrees[k].tache === ancien) etat.entrees[k].tache = nouveau;
+      }
+      sauver();
+      rendre();
+    });
+    var sup = document.createElement("button");
+    sup.type = "button";
+    sup.className = "sup";
+    sup.textContent = "✕";
+    sup.setAttribute("aria-label", "Retirer cette tâche");
+    sup.addEventListener("click", function () {
+      if (!window.confirm("Retirer « " + etat.taches[idx] + " » de la liste ?\n(Les heures déjà comptées restent dans l'historique.)")) return;
+      etat.taches.splice(idx, 1);
+      sauver();
+      rendre();
+    });
+    li.appendChild(inp);
+    li.appendChild(sup);
+    elListeTaches.appendChild(li);
+  }
+
+  function rendre() {
+    rendreSelect();
+    rendreRecentes();
+    rendreTotaux();
+    rendreParTache();
+    rendreHistorique();
+    rendreTaches();
+  }
+
+  function ajouterEntree() {
+    var tache = elTache.value;
+    if (!tache) { msg("Choisis une tâche."); return; }
+    var brut = elHeures.value.replace(",", ".").trim();
+    if (!/^\d+(\.\d+)?$/.test(brut)) { msg("Un nombre d'heures, par exemple 1,5 (maximum 24)."); return; }
+    var v = parseFloat(brut);
+    if (v <= 0 || v > 24) { msg("Un nombre d'heures, par exemple 1,5 (maximum 24)."); return; }
+    var m = Math.round(v * 60);
+    if (m <= 0) { msg("Un nombre d'heures, par exemple 1,5 (maximum 24)."); return; }
+    var date = elDate.value || aujourdhui();
+    etat.entrees.push({ date: date, tache: tache, min: m, note: elNote.value.trim() });
+    sauver();
+    rendre();
+    elHeures.value = "";
+    elNote.value = "";
+    msg("Ajouté : " + formatMin(m) + " — " + tache + ".", true);
+    elHeures.focus();
+  }
+
+  document.getElementById("btnAjouter").addEventListener("click", ajouterEntree);
+  elHeures.addEventListener("keydown", function (e) { if (e.key === "Enter") ajouterEntree(); });
+  elNote.addEventListener("keydown", function (e) { if (e.key === "Enter") ajouterEntree(); });
+
+  function ajouterTache() {
+    var v = elInpTache.value.trim();
+    if (!v) return;
+    if (etat.taches.indexOf(v) !== -1) {
+      window.alert("Cette tâche est déjà dans la liste.");
+      return;
+    }
+    etat.taches.push(v);
+    elInpTache.value = "";
+    sauver();
+    rendre();
+  }
+  document.getElementById("btnAjoutTache").addEventListener("click", ajouterTache);
+  elInpTache.addEventListener("keydown", function (e) { if (e.key === "Enter") ajouterTache(); });
+
+  // ---- Onglets ----
+  var onglets = [
+    { btn: document.getElementById("ongSaisie"), page: document.getElementById("page-saisie") },
+    { btn: document.getElementById("ongHisto"), page: document.getElementById("page-historique") },
+    { btn: document.getElementById("ongRegl"), page: document.getElementById("page-reglages") }
+  ];
+  for (var idx = 0; idx < onglets.length; idx++) {
+    (function (o) {
+      o.btn.addEventListener("click", function () {
+        for (var k = 0; k < onglets.length; k++) {
+          onglets[k].btn.className = "onglet" + (onglets[k] === o ? " actif" : "");
+          onglets[k].page.hidden = onglets[k] !== o;
+        }
+      });
+    })(onglets[idx]);
+  }
+
+  // ---- Téléchargements ----
+  function telecharger(nom, contenu, type) {
+    var blob = new Blob([contenu], { type: type + ";charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = nom;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  }
+  function champCsv(s) {
+    s = String(s == null ? "" : s);
+    if (/[";\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+  function decimalHeures(min) {
+    var v = Math.round(min / 60 * 100) / 100;
+    return String(v).replace(".", ",");
+  }
+
+  document.getElementById("btnCsv").addEventListener("click", function () {
+    var l = ["Date;Tâche;Heures;Note"];
+    var arr = triees(false);
+    for (var i = 0; i < arr.length; i++) {
+      var e = arr[i];
+      l.push([e.date, champCsv(e.tache), decimalHeures(e.min), champCsv(e.note)].join(";"));
+    }
+    telecharger("heures-benevolat-asq.csv", "\ufeff" + l.join("\r\n"), "text/csv");
+  });
+
+  document.getElementById("btnJson2").addEventListener("click", function () {
+    var d = { app: "compteur-benevolat-asq", version: 1, taches: etat.taches, entrees: etat.entrees };
+    telecharger("compteur-benevolat-asq-sauvegarde.json", JSON.stringify(d, null, 2), "application/json");
+  });
+
+  document.getElementById("inpImport2").addEventListener("change", function () {
+    var f = this.files && this.files[0];
+    if (!f) return;
+    var lecteur = new FileReader();
+    lecteur.onload = function () {
+      try {
+        var d = JSON.parse(String(lecteur.result));
+        if (!d || !Array.isArray(d.entrees)) throw new Error("format");
+        var t = [];
+        if (Array.isArray(d.taches)) {
+          for (var i = 0; i < d.taches.length; i++) {
+            if (typeof d.taches[i] === "string" && d.taches[i].replace(/\s/g, "") !== "") t.push(d.taches[i]);
+          }
+        }
+        etat.taches = t.length ? t : TACHES_DEPART.slice();
+        etat.entrees = nettoyerEntrees(d.entrees);
+        sauver();
+        rendre();
+        window.alert("Sauvegarde importée : " + etat.entrees.length + " entrées.");
+      } catch (err) {
+        window.alert("Ce fichier ne ressemble pas à une sauvegarde du compteur.");
+      }
+    };
+    lecteur.readAsText(f);
+    this.value = "";
+  });
+
+  var elEffacer2 = document.getElementById("btnEffacer2");
+  var effConf = false;
+  var effMin = null;
+  var TEXTE_EFF2 = "Effacer toutes les entrées";
+  function resetEff2() {
+    effConf = false;
+    if (effMin) { clearTimeout(effMin); effMin = null; }
+    elEffacer2.textContent = TEXTE_EFF2;
+  }
+  elEffacer2.addEventListener("click", function () {
+    if (!effConf) {
+      effConf = true;
+      elEffacer2.textContent = "Clique encore pour effacer pour de vrai";
+      if (effMin) clearTimeout(effMin);
+      effMin = setTimeout(resetEff2, 5000);
+      return;
+    }
+    etat.entrees = [];
+    sauver();
+    resetEff2();
+    rendre();
+  });
+
+  charger();
+  elDate.value = aujourdhui();
+  rendre();
+})();
+</script>
+</body>
+</html>
