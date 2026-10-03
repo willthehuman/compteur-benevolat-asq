@@ -8,8 +8,8 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    background: #f4f6f7;
-    color: #31414b;
+    background: #f4eef8;
+    color: #1f1f36;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 16.5px;
     line-height: 1.5;
@@ -17,97 +17,98 @@
   }
   .page { max-width: 600px; margin: 0 auto; padding: 24px 16px 56px; }
   .entete h1 { font-size: 26px; margin: 0 0 4px; font-weight: 650; }
-  .soust { color: #71828d; font-size: 15px; margin: 0 0 18px; }
+  .soust { color: #756a80; font-size: 15px; margin: 0 0 18px; }
 
   .onglets { display: flex; gap: 8px; margin: 0 0 18px; }
   .onglet {
-    flex: 1; padding: 11px 8px; border-radius: 999px; border: 1.5px solid #dce4e8;
-    background: #fff; color: #55707e; font-family: inherit; font-size: 15px; cursor: pointer;
+    flex: 1; padding: 11px 8px; border-radius: 999px; border: 1.5px solid #ddd0e4;
+    background: #fff; color: #6d5a72; font-family: inherit; font-size: 15px; cursor: pointer;
   }
-  .onglet.actif { background: #3a6b7e; border-color: #3a6b7e; color: #fff; font-weight: 600; }
+  .onglet.actif { background: #852b66; border-color: #852b66; color: #fff; font-weight: 600; }
 
   .carte {
     background: #fff; border-radius: 16px; padding: 18px 16px;
-    box-shadow: 0 6px 22px rgba(49, 65, 75, 0.06); margin-bottom: 14px;
+    box-shadow: 0 6px 22px rgba(31, 31, 54, 0.06); margin-bottom: 14px;
   }
   .champ { display: block; margin-bottom: 12px; }
-  .champ span { display: block; font-size: 13.5px; color: #71828d; margin-bottom: 5px; }
+  .champ span { display: block; font-size: 13.5px; color: #756a80; margin-bottom: 5px; }
   .champ input, .champ select {
-    width: 100%; padding: 11px 12px; border: 1.5px solid #dce4e8; border-radius: 10px;
-    font-family: inherit; font-size: 16px; color: #31414b; background: #fff;
+    width: 100%; padding: 11px 12px; border: 1.5px solid #ddd0e4; border-radius: 10px;
+    font-family: inherit; font-size: 16px; color: #1f1f36; background: #fff;
   }
-  .champ input:focus, .champ select:focus { outline: none; border-color: #3a6b7e; }
+  .champ input:focus, .champ select:focus { outline: none; border-color: #852b66; }
 
   .bouton {
-    background: #3a6b7e; color: #fff; border: none; border-radius: 10px;
+    background: #852b66; color: #fff; border: none; border-radius: 10px;
     padding: 12px 16px; font-size: 15.5px; font-family: inherit; cursor: pointer;
   }
-  .bouton.clair { background: #e9f0f3; color: #2e5866; }
-  .bouton.danger { background: #f6e5e1; color: #a1482f; }
+  .bouton.clair { background: #f2ebf7; color: #6b2353; }
+  .bouton.danger { background: #fbe3ec; color: #9c2456; }
   .bouton.large { display: block; width: 100%; text-align: center; margin: 0 0 10px; }
   .message { margin: 10px 0 0; font-size: 14.5px; }
   .message.ok { color: #3f7a5f; }
   .message.avert { color: #a1482f; }
 
-  .titre-liste { font-size: 16px; margin: 20px 2px 8px; color: #55707e; font-weight: 600; }
+  .titre-liste { font-size: 16px; margin: 20px 2px 8px; color: #6d5a72; font-weight: 600; }
   .liste { list-style: none; margin: 0; padding: 0; }
   .entree {
     display: flex; align-items: flex-start; gap: 8px;
     background: #fff; border-radius: 12px; padding: 11px 12px; margin-bottom: 8px;
-    box-shadow: 0 4px 14px rgba(49, 65, 75, 0.05);
+    box-shadow: 0 4px 14px rgba(31, 31, 54, 0.05);
   }
   .entree-corps { flex: 1 1 auto; min-width: 0; }
   .entree-haut { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
-  .entree-date { color: #71828d; font-size: 14px; flex: 0 0 auto; }
+  .entree-date { color: #756a80; font-size: 14px; flex: 0 0 auto; }
   .entree-tache { font-weight: 600; font-size: 15px; flex: 1 1 120px; min-width: 0; }
-  .entree-heures { margin-left: auto; color: #2e5866; font-weight: 600; font-size: 15px; white-space: nowrap; }
-  .entree-note { color: #71828d; font-size: 14px; margin-top: 3px; }
+  .entree-qui { color: #852b66; font-size: 13.5px; font-weight: 600; flex: 0 0 auto; }
+  .entree-heures { margin-left: auto; color: #6b2353; font-weight: 600; font-size: 15px; white-space: nowrap; }
+  .entree-note { color: #756a80; font-size: 14px; margin-top: 3px; }
   .sup {
-    flex: 0 0 auto; background: none; border: none; color: #a9b6bd;
+    flex: 0 0 auto; background: none; border: none; color: #b6aabf;
     font-size: 17px; cursor: pointer; padding: 4px 6px; line-height: 1;
   }
-  .sup:hover { color: #a1482f; }
-  .vide { color: #9aa8b0; font-size: 14.5px; margin: 6px 2px; }
+  .sup:hover { color: #9c2456; }
+  .vide { color: #9c92a6; font-size: 14.5px; margin: 6px 2px; }
 
   .totaux { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 6px; }
   .tot {
     background: #fff; border-radius: 14px; padding: 13px 10px; text-align: center;
-    box-shadow: 0 4px 14px rgba(49, 65, 75, 0.05);
+    box-shadow: 0 4px 14px rgba(31, 31, 54, 0.05);
   }
-  .totlabel { display: block; font-size: 12.5px; color: #71828d; margin-bottom: 4px; }
-  .totval { display: block; font-size: 19px; font-weight: 650; color: #2e5866; white-space: nowrap; }
+  .totlabel { display: block; font-size: 12.5px; color: #756a80; margin-bottom: 4px; }
+  .totval { display: block; font-size: 19px; font-weight: 650; color: #1f1f36; white-space: nowrap; }
 
   .pt { margin: 12px 0; }
   .pt:first-child { margin-top: 4px; }
   .pt-haut { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; }
   .pt-nom { min-width: 0; }
-  .pt-val { flex: 0 0 auto; font-weight: 600; color: #2e5866; white-space: nowrap; }
-  .pt-barre { margin-top: 6px; background: #edf2f4; border-radius: 6px; height: 9px; overflow: hidden; }
-  .pt-barre div { height: 9px; background: #3a6b7e; border-radius: 6px; }
+  .pt-val { flex: 0 0 auto; font-weight: 600; color: #6b2353; white-space: nowrap; }
+  .pt-barre { margin-top: 6px; background: #f3edf7; border-radius: 6px; height: 9px; overflow: hidden; }
+  .pt-barre div { height: 9px; border-radius: 6px; background: #852b66; }
 
-  .mois { font-size: 15px; color: #55707e; margin: 18px 2px 8px; font-weight: 600; }
+  .mois { font-size: 15px; color: #6d5a72; margin: 18px 2px 8px; font-weight: 600; }
 
   .tache { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
   .tache input {
-    flex: 1 1 auto; min-width: 0; padding: 10px 11px; border: 1.5px solid #dce4e8;
-    border-radius: 10px; font-family: inherit; font-size: 15.5px; color: #31414b;
+    flex: 1 1 auto; min-width: 0; padding: 10px 11px; border: 1.5px solid #ddd0e4;
+    border-radius: 10px; font-family: inherit; font-size: 15.5px; color: #1f1f36;
   }
-  .tache input:focus { outline: none; border-color: #3a6b7e; }
+  .tache input:focus { outline: none; border-color: #852b66; }
   .ajouttache { display: flex; gap: 8px; align-items: center; }
   .ajouttache input {
-    flex: 1 1 auto; min-width: 0; padding: 10px 11px; border: 1.5px solid #dce4e8;
-    border-radius: 10px; font-family: inherit; font-size: 15.5px; color: #31414b;
+    flex: 1 1 auto; min-width: 0; padding: 10px 11px; border: 1.5px solid #ddd0e4;
+    border-radius: 10px; font-family: inherit; font-size: 15.5px; color: #1f1f36;
   }
   .importlabel { cursor: pointer; }
   .importlabel input { display: none; }
-  .aide { color: #9aa8b0; font-size: 13.5px; margin: 6px 2px 0; }
+  .aide { color: #9c92a6; font-size: 13.5px; margin: 6px 2px 0; }
 </style>
 </head>
 <body>
 <div class="page">
   <header class="entete">
     <h1>Heures de bénévolat</h1>
-    <p class="soust">ASQ — compteur d'heures, tâche par tâche.</p>
+    <p class="soust">ASQ — compteur d'heures, par tâche et par personne.</p>
   </header>
 
   <nav class="onglets">
@@ -120,6 +121,8 @@
     <div class="carte">
       <label class="champ"><span>Date</span><input type="date" id="inpDate"></label>
       <label class="champ"><span>Tâche</span><select id="selTache"></select></label>
+      <label class="champ"><span>Personne</span><input type="text" id="inpPersonne" list="listePersonnes" placeholder="ex. Léa Bisson" autocomplete="off"></label>
+      <datalist id="listePersonnes"></datalist>
       <label class="champ"><span>Nombre d'heures</span><input type="text" id="inpHeures" inputmode="decimal" placeholder="ex. 1,5" autocomplete="off"></label>
       <label class="champ"><span>Note (au besoin)</span><input type="text" id="inpNote" placeholder="ex. ordre du jour, comité" autocomplete="off"></label>
       <button class="bouton large" id="btnAjouter" type="button">Ajouter</button>
@@ -135,8 +138,11 @@
       <div class="tot"><span class="totlabel">Cette année</span><span class="totval" id="totAnnee">0 h</span></div>
       <div class="tot"><span class="totlabel">Total</span><span class="totval" id="totTout">0 h</span></div>
     </div>
+    <p class="aide" style="margin:6px 2px 0">Bilan commun — tout le monde ensemble. Le détail par personne est plus bas.</p>
     <h2 class="titre-liste">Par tâche</h2>
     <div class="carte" id="parTache"></div>
+    <h2 class="titre-liste">Par personne</h2>
+    <div class="carte" id="parPersonne"></div>
     <h2 class="titre-liste">Toutes les entrées</h2>
     <div id="histoListe"></div>
   </section>
@@ -178,6 +184,7 @@
   var CLE = "compteur-benevolat-asq-v1";
   var MOIS_ABR = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
   var MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  var COULEURS_PERSONNES = ["#852b66", "#a1a3ff", "#ff8759", "#c98a2b", "#5e8a72", "#036798", "#7a2e4d"];
 
   var stockageOk = true;
   try {
@@ -217,6 +224,7 @@
         out.push({
           date: e.date,
           tache: e.tache,
+          personne: typeof e.personne === "string" ? e.personne.slice(0, 60) : "",
           min: Math.round(e.min),
           note: typeof e.note === "string" ? e.note : ""
         });
@@ -272,6 +280,7 @@
   }
 
   var elTache = document.getElementById("selTache");
+  var elPersonne = document.getElementById("inpPersonne");
   var elHeures = document.getElementById("inpHeures");
   var elNote = document.getElementById("inpNote");
   var elDate = document.getElementById("inpDate");
@@ -281,8 +290,10 @@
   var elTotAnnee = document.getElementById("totAnnee");
   var elTotTout = document.getElementById("totTout");
   var elParTache = document.getElementById("parTache");
+  var elParPersonne = document.getElementById("parPersonne");
   var elHisto = document.getElementById("histoListe");
   var elListeTaches = document.getElementById("listeTaches");
+  var elListePersonnes = document.getElementById("listePersonnes");
   var elInpTache = document.getElementById("inpTache");
   var msgMinuteur = null;
 
@@ -306,6 +317,21 @@
     if (val && etat.taches.indexOf(val) !== -1) elTache.value = val;
   }
 
+  function rendreDatalist() {
+    var vus = {};
+    var noms = [];
+    for (var i = 0; i < etat.entrees.length; i++) {
+      var p = etat.entrees[i].personne;
+      if (p && !vus[p]) { vus[p] = 1; noms.push(p); }
+    }
+    elListePersonnes.textContent = "";
+    for (var j = 0; j < noms.length; j++) {
+      var o = document.createElement("option");
+      o.value = noms[j];
+      elListePersonnes.appendChild(o);
+    }
+  }
+
   function ligneEntree(e, avecNote) {
     var li = document.createElement("li");
     li.className = "entree";
@@ -319,11 +345,17 @@
     var t = document.createElement("span");
     t.className = "entree-tache";
     t.textContent = e.tache;
+    haut.appendChild(d);
+    haut.appendChild(t);
+    if (e.personne) {
+      var q = document.createElement("span");
+      q.className = "entree-qui";
+      q.textContent = e.personne;
+      haut.appendChild(q);
+    }
     var v = document.createElement("span");
     v.className = "entree-heures";
     v.textContent = formatMin(e.min);
-    haut.appendChild(d);
-    haut.appendChild(t);
     haut.appendChild(v);
     corps.appendChild(haut);
     if (avecNote && e.note) {
@@ -414,10 +446,57 @@
       barre.className = "pt-barre";
       var interieur = document.createElement("div");
       interieur.style.width = Math.max(4, Math.round(tot[nom] / max * 100)) + "%";
+      interieur.style.background = "#852b66";
       barre.appendChild(interieur);
       bloc.appendChild(h);
       bloc.appendChild(barre);
       elParTache.appendChild(bloc);
+    }
+  }
+
+  function rendreParPersonne() {
+    elParPersonne.textContent = "";
+    var tot = {};
+    var ordre = [];
+    for (var i = 0; i < etat.entrees.length; i++) {
+      var nom = etat.entrees[i].personne || "Sans nom";
+      if (!(nom in tot)) { tot[nom] = 0; ordre.push(nom); }
+      tot[nom] += etat.entrees[i].min;
+    }
+    if (!ordre.length) {
+      var p = document.createElement("p");
+      p.className = "vide";
+      p.textContent = "Aucune heure encore.";
+      elParPersonne.appendChild(p);
+      return;
+    }
+    ordre.sort(function (a, b) { return tot[b] - tot[a]; });
+    var max = tot[ordre[0]];
+    for (var j = 0; j < ordre.length; j++) {
+      var n = ordre[j];
+      var bloc = document.createElement("div");
+      bloc.className = "pt";
+      var h = document.createElement("div");
+      h.className = "pt-haut";
+      var s1 = document.createElement("span");
+      s1.className = "pt-nom";
+      s1.textContent = n;
+      s1.style.color = COULEURS_PERSONNES[j % COULEURS_PERSONNES.length];
+      s1.style.fontWeight = "600";
+      var s2 = document.createElement("span");
+      s2.className = "pt-val";
+      s2.textContent = formatMin(tot[n]);
+      h.appendChild(s1);
+      h.appendChild(s2);
+      var barre = document.createElement("div");
+      barre.className = "pt-barre";
+      var interieur = document.createElement("div");
+      interieur.style.width = Math.max(4, Math.round(tot[n] / max * 100)) + "%";
+      interieur.style.background = COULEURS_PERSONNES[j % COULEURS_PERSONNES.length];
+      barre.appendChild(interieur);
+      bloc.appendChild(h);
+      bloc.appendChild(barre);
+      elParPersonne.appendChild(bloc);
     }
   }
 
@@ -499,9 +578,11 @@
 
   function rendre() {
     rendreSelect();
+    rendreDatalist();
     rendreRecentes();
     rendreTotaux();
     rendreParTache();
+    rendreParPersonne();
     rendreHistorique();
     rendreTaches();
   }
@@ -516,7 +597,7 @@
     var m = Math.round(v * 60);
     if (m <= 0) { msg("Un nombre d'heures, par exemple 1,5 (maximum 24)."); return; }
     var date = elDate.value || aujourdhui();
-    etat.entrees.push({ date: date, tache: tache, min: m, note: elNote.value.trim() });
+    etat.entrees.push({ date: date, tache: tache, personne: elPersonne.value.trim().slice(0, 60), min: m, note: elNote.value.trim() });
     sauver();
     rendre();
     elHeures.value = "";
@@ -584,11 +665,11 @@
   }
 
   document.getElementById("btnCsv").addEventListener("click", function () {
-    var l = ["Date;Tâche;Heures;Note"];
+    var l = ["Date;Tâche;Personne;Heures;Note"];
     var arr = triees(false);
     for (var i = 0; i < arr.length; i++) {
       var e = arr[i];
-      l.push([e.date, champCsv(e.tache), decimalHeures(e.min), champCsv(e.note)].join(";"));
+      l.push([e.date, champCsv(e.tache), champCsv(e.personne), decimalHeures(e.min), champCsv(e.note)].join(";"));
     }
     telecharger("heures-benevolat-asq.csv", "\ufeff" + l.join("\r\n"), "text/csv");
   });
